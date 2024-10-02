@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: client-ns
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client
+  namespace: client-ns
+spec:
+  type: NodePort
+  selector:
+    app: client
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 30000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  namespace: client-ns
+spec:
+  selector:
+    matchLabels:
+      app: client
+  replicas: 1
+  template:
+    metadata:
+      namespace: client-ns
+      labels:
+        app: client
+        spire.spiffe.io/spiffeid: default
+    spec:
+      containers:
+        # Client container
+        - name: client
+          image: client-service:latest-local
+          # args: ["-"]
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthy
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          volumeMounts:
+            # Mount SPIRE-Agent socket
+            - name: spire-agent-socket
+              mountPath: /run/spire/sockets
+              readOnly: true
+      volumes:
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true

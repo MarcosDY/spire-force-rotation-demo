@@ -1,0 +1,14 @@
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: database-access-spiffe-id
+spec:
+  spiffeIDTemplate: spiffe://cluster.demo/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
+  autoPopulateDNSNames: true
+  dnsNameTemplates:
+    - "symuser"
+  podSelector:
+    matchLabels:
+      spire.spiffe.io/spiffeid: db-access
+
+

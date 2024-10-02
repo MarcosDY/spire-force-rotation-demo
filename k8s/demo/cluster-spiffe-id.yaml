@@ -1,0 +1,11 @@
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: basic-client-spiffe-id
+spec:
+  spiffeIDTemplate: spiffe://cluster.demo/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
+  autoPopulateDNSNames: true
+  podSelector:
+    matchLabels:
+      spire.spiffe.io/spiffeid: default
+
