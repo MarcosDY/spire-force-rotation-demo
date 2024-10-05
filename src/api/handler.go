@@ -1,9 +1,8 @@
-package handler
+package main
 
 import (
 	"database/sql"
 	"encoding/json"
-	"log"
 	"log/slog"
 	"net/http"
 
@@ -44,7 +43,7 @@ func (h *Handler) CustomersList(w http.ResponseWriter, r *http.Request) {
 	// open database
 	db, err := sql.Open("postgres", h.connStr)
 	if err != nil {
-		log.Printf("Failed to connect database: %v", err)
+		h.log.Error("Failed to connect database", "error", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -102,7 +101,7 @@ func (h *Handler) CustomerInsert(w http.ResponseWriter, r *http.Request) {
 	// open database
 	db, err := sql.Open("postgres", h.connStr)
 	if err != nil {
-		log.Printf("Failed to connect database: %v", err)
+		h.log.Error("Failed to connect database", "error", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

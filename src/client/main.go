@@ -139,20 +139,20 @@ func (h *handler) indexHandler(w http.ResponseWriter, r *http.Request) {
 	log.Info("JWT SVID fetched", "token", svid.Marshal())
 
 	customers, customersErr := getCustomers(svid)
-	products, productsErr := getProducts(svid)
 	if customersErr != nil {
 		log.Error("Failed to get customers", "error", customersErr)
 	}
-	if productsErr != nil {
-		log.Error("Failed to get products", "error", productsErr)
-	}
+	// products, productsErr := getProducts(svid)
+	// if productsErr != nil {
+	// log.Error("Failed to get products", "error", productsErr)
+	// }
 
 	page.Execute(w, map[string]interface{}{
 		"Customers":    customers,
 		"CustomersErr": customersErr,
-		"Products":     products,
-		"ProductsErr":  productsErr,
-		"LastUpdated":  time.Now(),
+		// "Products":     products,
+		// "ProductsErr":  productsErr,
+		"LastUpdated": time.Now(),
 	})
 }
 

@@ -34,6 +34,7 @@ const markup = `
         {{if .CustomersErr}}
 	<div class="error">Customers service unavailable: {{.CustomersErr}}</div>
         {{end}}
+      <!--
         {{if .ProductsErr}}
 	<div class="error">Products service unavailable: {{.ProductsErr}}</div>
         {{end}}
@@ -57,6 +58,7 @@ const markup = `
                 {{end}}
             </tbody>
         </table>
+      -->
 	<div>
 	    <h1>Customers</h1>
 	</div>

@@ -105,6 +105,8 @@ data:
       trust_domain = "cluster.demo"
       data_dir = "/run/spire/server/data"
       log_level = "DEBUG"
+      default_x509_svid_ttl = "8h"
+      default_jwt_svid_ttl = "8h"
       experimental {
         feature_flags = ["forced_rotation"]	
       }

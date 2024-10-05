@@ -2,4 +2,4 @@
 
 set -eu
 
-stern . -n postgres-ns
+stern . -n postgres-ns --template '{{color .ContainerColor .ContainerName}} {{.Message}} {{"\n"}}'

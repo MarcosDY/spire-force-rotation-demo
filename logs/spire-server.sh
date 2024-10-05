@@ -2,4 +2,4 @@
 
 set -eu
 
-stern . -n spire-system -c spire-server
+stern . -n spire-system -c spire-server --template '{{color .ContainerColor .ContainerName}} {{.Message}} {{"\n"}}'
