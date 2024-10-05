@@ -18,9 +18,27 @@ The [API](k8s/demo/api.yaml) pod contains a REST API that attests using the Work
 
 The [client](k8s/demo/client.yaml) pod hosts a simple web page that connects to the API using mTLS. It uses an X.509 SVID obtained from a successful attestation against the SPIRE Agent and presents a JWT token to the same API.
 
-Diagram
+### Diagrams
+
+##### Deployment
 
 ![diagrama](../images/deploy-diagram.jpg)
+
+##### Prepare X.509 Authority
+
+![diagrama](../images/Prepare-X509-authority.jpg)
+
+##### Activate X.509 Authority
+
+![diagrama](../images/Activate-X509-authority.jpg)
+
+##### Taint X.509 Authority
+
+![diagrama](../images/Taint-X509-authority.jpg)
+
+##### Revoke X.509 Authority
+
+![diagrama](../images/Revoke-X509-authority.jpg)
 
 ##### Entries
 
