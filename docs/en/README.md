@@ -40,6 +40,22 @@ The [client](k8s/demo/client.yaml) pod hosts a simple web page that connects to 
 
 ![diagrama](../images/Revoke-X509-authority.jpg)
 
+##### Prepare JWT Authority
+
+![diagrama](../images/Prepare-JWT-authority.jpg)
+
+##### Activate JWT Authority
+
+![diagrama](../images/Activate-JWT-authority.jpg)
+
+##### Taint JWT Authority
+
+![diagrama](../images/Taint-JWT-authority.jpg)
+
+##### Revoke JWT Authority
+
+![diagrama](../images/Revoke-JWT-authority.jpg)
+
 ##### Entries
 
 All entries are created using spire-controller-manager
