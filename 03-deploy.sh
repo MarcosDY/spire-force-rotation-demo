@@ -25,7 +25,7 @@ ${KUBECTL_PATH} apply -k ./k8s/core
 # ${KUBECTL_PATH} apply -f k8s/demo/cluster-spiffe-id.yaml
 
 # Sleeping for now until the CRD validation is created
-# sleep 60
+sleep 60
 # TODO: Wait for CRD to be created
 timeout=40
 # start_time=$(date +%s)
