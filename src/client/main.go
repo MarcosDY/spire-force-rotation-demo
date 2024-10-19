@@ -226,6 +226,13 @@ func main() {
 				log.Info("SVID found", "spiffe_id", x509SVID.ID.String(),
 					"subject_key_id", subjectKeyIDToString(x509SVID.Certificates[0].SubjectKeyId),
 					"authority_key_id", subjectKeyIDToString(x509SVID.Certificates[0].AuthorityKeyId))
+				bundle, err := x509Source.GetX509BundleForTrustDomain(x509SVID.ID.TrustDomain())
+				if err != nil {
+					log.Error("Failed to get bundle for trust domain", "error", err)
+				}
+				for _, authority := range bundle.X509Authorities() {
+					log.Info("Authority recieved", "subject_key_id", subjectKeyIDToString(authority.SubjectKeyId))
+				}
 			}
 		}
 	}()

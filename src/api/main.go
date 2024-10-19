@@ -73,7 +73,7 @@ func start() error {
 	}
 	defer jwtSource.Close()
 
-	go monitorJWTUpdates(ctx, jwtSource, source)
+	go monitorJWTUpdates(ctx, jwtSource)
 
 	auth := &authenticator{
 		jwtSource: jwtSource,
@@ -112,7 +112,7 @@ func monitorSVIDUpdates(ctx context.Context, source *workloadapi.X509Source) {
 	}
 }
 
-func monitorJWTUpdates(ctx context.Context, jwtSource *workloadapi.JWTSource, source *workloadapi.X509Source) {
+func monitorJWTUpdates(ctx context.Context, jwtSource *workloadapi.JWTSource) {
 	for {
 		select {
 		case <-ctx.Done():
@@ -134,10 +134,6 @@ func monitorJWTUpdates(ctx context.Context, jwtSource *workloadapi.JWTSource, so
 				continue
 			}
 			log.Info("JWT SVID fetched", "marshal", jwtSVID.Marshal())
-
-			if err := storeSVIDUpdate(source, log); err != nil {
-				log.Error("Failed to store SVID update", "error", err)
-			}
 		}
 	}
 }

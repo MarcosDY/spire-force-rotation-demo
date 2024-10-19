@@ -107,9 +107,6 @@ data:
       log_level = "DEBUG"
       default_x509_svid_ttl = "8h"
       default_jwt_svid_ttl = "8h"
-      experimental {
-        feature_flags = ["forced_rotation"]	
-      }
       federation {
         bundle_endpoint {
           address = "0.0.0.0"
@@ -185,8 +182,6 @@ spec:
           image: ghcr.io/spiffe/spire-server:nightly
           imagePullPolicy: IfNotPresent
           env:
-          - name: SPIRE_SERVER_FFLAGS
-            value: "forced_rotation"
           args: ["-config", "/run/spire/server/config/server.conf"]
           ports:
             - containerPort: 8081

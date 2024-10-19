@@ -44,6 +44,10 @@ func storeSVIDUpdate(source *workloadapi.X509Source, log *slog.Logger) error {
 		return fmt.Errorf("failed to write bundles on disk; %w", err)
 	}
 
+	for _, authority := range x509Bundle.X509Authorities() {
+		log.Info("Authority recieved", "subject_key_id", subjectKeyIDToString(authority.SubjectKeyId))
+	}
+
 	return nil
 }
 

@@ -2,7 +2,7 @@ FROM golang:1.23.2-alpine3.20 as builder
 RUN apk add build-base git
 
 from alpine AS image-base 
-RUN apk --no-cache add dumb-init curl vim git
+RUN apk --no-cache add dumb-init curl vim git openssl
 
 # Build api service
 FROM builder as service-builder

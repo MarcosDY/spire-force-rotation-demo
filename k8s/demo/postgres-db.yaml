@@ -51,6 +51,14 @@ metadata:
 data: 
   reloadCertificates.sh: |
     #!/bin/bash
+    echo "X.509 SVID"
+    echo "****************************************"
+    openssl x509 -in /run/customer-db/certs/svid.crt -noout -text
+    echo "****************************************"
+    echo "X.509 Authority"
+    echo "****************************************"
+    openssl crl2pkcs7 -nocrl -certfile /run/customer-db/certs/root.crt | openssl pkcs7 -print_certs -text -noout
+    echo "****************************************"
     psql -h /tmp/ -c 'SELECT pg_reload_conf();'
 
 ---
