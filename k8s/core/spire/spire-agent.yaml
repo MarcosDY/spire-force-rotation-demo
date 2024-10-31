@@ -103,8 +103,7 @@ spec:
       serviceAccountName: spire-agent
       containers:
         - name: spire-agent
-          # TODO: Update this image to the latest release
-          image: ghcr.io/spiffe/spire-agent:nightly
+          image: ghcr.io/spiffe/spire-agent:1.11.0
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/config/agent.conf"]
           env:

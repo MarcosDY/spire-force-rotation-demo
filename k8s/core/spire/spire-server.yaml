@@ -179,7 +179,7 @@ spec:
       containers:
         - name: spire-server
           # TODO: Use a stable release image
-          image: ghcr.io/spiffe/spire-server:nightly
+          image: ghcr.io/spiffe/spire-server:1.11.0
           imagePullPolicy: IfNotPresent
           env:
           args: ["-config", "/run/spire/server/config/server.conf"]
