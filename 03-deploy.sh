@@ -17,7 +17,11 @@ pull-images() {
     local container_images=("$@")
 
     for image in "${container_images[@]}"; do
-	docker pull "${image}"
+        if ! docker image inspect "${image}" > /dev/null 2>&1; then
+            docker pull "${image}"
+        else
+            echo "Image ${image} already exists locally, skipping pull."
+        fi
     done
 }
 
@@ -26,7 +30,7 @@ container_images=("spiffe-helper:latest-local" "client-service:latest-local" "ap
 load-images ${CLUSTER_NAME} "${container_images[@]}"
 
 # Load SPIRE images, to avoid downloading them from the internet
-spire_images=("ghcr.io/spiffe/spire-agent:1.11.0" "ghcr.io/spiffe/spiffe-csi-driver:0.2.3" "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0" "ghcr.io/spiffe/spire-server:1.11.0" "ghcr.io/spiffe/spire-controller-manager:0.6.0")
+spire_images=("ghcr.io/spiffe/spire-agent:1.11.0" "ghcr.io/spiffe/spiffe-csi-driver:0.2.3" "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0" "ghcr.io/spiffe/spire-server:1.11.0" "ghcr.io/spiffe/spire-controller-manager:0.6.0" "postgres:14.0-alpine")
 pull-images "${spire_images[@]}"
 load-images ${CLUSTER_NAME} "${spire_images[@]}"
 
