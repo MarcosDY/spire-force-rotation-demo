@@ -13,41 +13,29 @@ load-images() {
     done
 }
 
+pull-images() {
+    local container_images=("$@")
+
+    for image in "${container_images[@]}"; do
+	docker pull "${image}"
+    done
+}
+
 # Load builded images
 container_images=("spiffe-helper:latest-local" "client-service:latest-local" "api-service:latest-local")
 load-images ${CLUSTER_NAME} "${container_images[@]}"
+
+# Load SPIRE images, to avoid downloading them from the internet
+spire_images=("ghcr.io/spiffe/spire-agent:1.11.0" "ghcr.io/spiffe/spiffe-csi-driver:0.2.3" "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.12.0" "ghcr.io/spiffe/spire-server:1.11.0" "ghcr.io/spiffe/spire-controller-manager:0.6.0")
+pull-images "${spire_images[@]}"
+load-images ${CLUSTER_NAME} "${spire_images[@]}"
 
 # Deploy SPIRE
 log-info "Deploying SPIRE Server"
 ${KUBECTL_PATH} apply -k ./k8s/core
 
-# ${KUBECTL_PATH} wait --for=condition=established --timeout=60s crd/clusterspiffeids.spire.spiffe.io 
-# ${KUBECTL_PATH} apply -f k8s/demo/cluster-spiffe-id.yaml
-
 # Sleeping for now until the CRD validation is created
-sleep 60
-# TODO: Wait for CRD to be created
-timeout=40
-# start_time=$(date +%s)
-
-# while true; do
-    # if ${KUBECTL_PATH} get crd clusterspiffeids.spire.spiffe.io > /dev/null 2>&1; then
-	# log-info "CRD exists, proceeding..."
-	# ${KUBECTL_PATH} wait --for=condition=established --timeout=60s crd/clusterspiffeids.spire.spiffe.io
-	# break
-    # else
-	# echo "Waiting for CRD to be created..."
-	# sleep 5
-    # fi
-
-    # current_time=$(date +%s)
-    # elapsed_time=$((current_time - start_time))
-
-    # if [ "$elapsed_time" -ge "$timeout" ]; then
-	# echo "Timed out waiting for CRD to be created."
-	# exit 1
-    # fi
-# done
+sleep 30
 
 log-info "Deploy pods"
 ${KUBECTL_PATH} apply -k ./k8s/demo
