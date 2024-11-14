@@ -136,7 +136,6 @@ spec:
           env:
             - name: POSTGRES_DB 
               value: "demodb"
-            # TODO: is it required?
             - name: POSTGRES_USER
               value: postgres 
             - name: POSTGRES_PASSWORD
